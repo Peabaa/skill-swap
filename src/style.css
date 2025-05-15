@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Sofia+Sans:ital,wght@1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
     --font-sofia: "Sofia Sans", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
+}
+
+* {
+  @apply border border-red-500;
 }
