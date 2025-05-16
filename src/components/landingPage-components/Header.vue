@@ -3,7 +3,7 @@
   <header class="bg-[#6EA1AA] shadow-md px-7 py-2.5">
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-6">
-        <p class="font-sofia text-[48px] text-white text-shadow-lg/30">SkillSwap</p>
+        <p class="font-sofia text-[48px] font-bold italic text-white text-shadow-lg/30">SkillSwap</p>
         <img 
           src="@/assets/images/skillSwapLogo.png"
           alt="Logo"
