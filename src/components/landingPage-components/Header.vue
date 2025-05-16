@@ -1,6 +1,9 @@
 <template>
   <!-- Header -->
   <header class="bg-[#6EA1AA] shadow-md px-7 py-5">
+<div v-if="showFilters">
+</div>
+    
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-6">
         <p class="font-sofia text-[48px] text-white text-shadow-lg/30">SkillSwap</p>
@@ -21,13 +24,26 @@
         <input 
           v-model="searchBar"
           type="searchBar"
-          class="flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
+          placeholder="Search"
+          class="font-sofia flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
         />
+
+        <!-- Search Filter Button -->
         <img 
           src="@/assets/images/searchFilters.png"
           alt="Filter"
           class="w-8 -translate-x-3 object-contain "
+          @click="showFilters = !showFilters"
         />
+
+        <div v-if="showFilters" class="absolute top-[100px] right-[300px] bg-white shadow-lg rounded-xl p-4 z-50 w-60">
+          <p class="font-sofia text-gray-700 mb-2">Sort by</p>
+          <ul class="space-y-2">
+            <li><input type="checkbox" id="opt1" /> <label for="opt1">Option 1</label></li>
+            <li><input type="checkbox" id="opt2" /> <label for="opt2">Option 2</label></li>
+            <li><input type="checkbox" id="opt3" /> <label for="opt3">Option 3</label></li>
+          </ul>
+        </div>
       </div> 
 
       <!-- Login and Sign Up Buttons -->
@@ -41,7 +57,10 @@
   </header>
 </template>
 
+<script setup>
+import { ref } from 'vue'
 
-<script>
+const searchBar = ref('')
+const showFilters = ref(false)
 
 </script>
