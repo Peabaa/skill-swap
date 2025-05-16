@@ -1,6 +1,27 @@
 <template>
   <div class="min-h-screen flex flex-col bg-[#03262B]">
-    <Header />
+    <Header 
+      @trigger-login="showLogin = true"
+      @trigger-signup="showSignUp = true"
+    />
+    <!--Login Form Overlay-->
+    <div
+      v-if="showLogin"
+      class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.6)] flex items-center justify-center"
+    >
+      <LoginForm @close="showLogin = false" 
+                @trigger-signup="showLogin = false; showSignUp = true"/>/>
+
+    </div>
+
+    <!--Sign Up Form Overlay-->
+    <div
+      v-if="showSignUp"
+      class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.6)] flex items-center justify-center"
+    >
+      <SignUpForm @close="showSignUp = false" 
+                  @trigger-login="showSignUp = false; showLogin = true"/>
+    </div>
     <main class="flex-1">
       <!-- Page content goes here -->  
        <div class="relative w-full">
@@ -43,14 +64,14 @@
   </div>
 </template>
 
-<script>
-import Footer from './landingPage-components/Footer.vue';
-import Header from './landingPage-components/Header.vue'
 
-export default {
-  components: {
-    Header,
-    Footer
-  }
-}
+<script setup>
+import { ref } from 'vue'
+import Header from './landingPage-components/Header.vue'
+import LoginForm from './landingPage-components/LoginForm.vue'
+import SignUpForm from './landingPage-components/SignUpForm.vue'
+import Footer from './landingPage-components/Footer.vue';
+
+const showLogin = ref(false)
+const showSignUp = ref(false)
 </script>

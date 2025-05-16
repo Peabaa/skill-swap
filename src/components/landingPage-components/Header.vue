@@ -50,8 +50,10 @@
 
       <!-- Login and Sign Up Buttons -->
       <div class="flex items-center gap-6">
-        <button class="font-roboto text-[25px] text-white text-4xl font-bold">Login</button>
-        <button class="font-roboto text-[25px] font-bold w-30 h-13 text-[#6EA1AA] flex items-center justify-center text-4xl bg-white rounded-2xl border border-slate-400">Sign Up</button> 
+        <button class="font-roboto text-[25px] text-white text-4xl font-bold"
+                @click="$emit('trigger-login')">Login</button>
+        <button class="font-roboto text-[25px] font-bold w-30 h-13 text-[#6EA1AA] flex items-center justify-center text-4xl bg-white rounded-2xl border border-slate-400"
+                @click="$emit('trigger-signup')">Sign Up</button> 
       </div>
     </div>
   </header>
