@@ -1,3 +1,4 @@
+<!-- Sign Up Modal/Overlay -->
 <template>
   <!--Sign Up Form-->
   <div class="flex items-center justify-center">

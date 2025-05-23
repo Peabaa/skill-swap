@@ -1,3 +1,4 @@
+<!-- Landing Page -->
 <template>
   <div class="min-h-screen flex flex-col bg-[#03262B]">
     <Header 
@@ -22,7 +23,7 @@
       <SignUpForm @close="showSignUp = false" 
                   @trigger-login="showSignUp = false; showLogin = true"/>
     </div>
-    <main class="flex-1">
+    <main class="flex-1 pt-22">
       <!-- Page content goes here -->  
        <div class="relative w-full">
         <p class=" font-sofia text-[53px] text-white text-4xl italic text-shadow-lg absolute top-18 left-28">
@@ -43,21 +44,67 @@
        <p class=" font-sofia text-[53px] text-white text-4xl italic text-shadow-lg ml-[113px] mt-[25px]">
           Skill Categories
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-28 py-12">
-          <div class="relative flex flex-col items-center ">
+
+        <!-- Skill Cards Grid -->
+        <div class="relative flex items-center px-28 py-12">
+        <!-- Left Button -->
+        <button
+          class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
+        >
+          <img
+            src="@/assets/images/Circle_Carret_Right.png"
+            alt="Left"
+            class="w-20 h-20 rotate-180"
+          />
+        </button>
+
+        <!-- Skill Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+          <div class="relative flex flex-col items-center">
             <img 
-              src="@/assets/images/searchIcon.png"
-              alt="Tech Skill"
-              class="w-90 h-90 object-cover rounded-2xl shadow-lg"
+              src="@/assets/images/languageSkill.png"
+              alt="Language & Communication"
+              class="w-90 h-90 rounded-2xl shadow-lg"
             />
-            <div class="absolute -bottom-5 bg-white text-[#03262B] font-bold px-6 py-2 rounded-full shadow-md">
-              Technology
+            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
+              Language & Communication
             </div>
           </div>
 
-          
+          <div class="relative flex flex-col items-center">
+            <img 
+              src="@/assets/images/musicSkill.png"
+              alt="Music & Performance"
+              class="w-90 h-90 rounded-2xl shadow-lg"
+            />
+            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
+              Music & Performance
+            </div>
+          </div>
 
+          <div class="relative flex flex-col items-center">
+            <img 
+              src="@/assets/images/cookingSkill.png"
+              alt="Cooking & Pastry Arts"
+              class="w-90 h-90 rounded-2xl shadow-lg"
+            />
+            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
+              Cooking & Pastry Arts
+            </div>
+          </div>
         </div>
+
+        <!-- Right Button -->
+        <button
+          class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+        >
+          <img
+            src="@/assets/images/Circle_Carret_Right.png"
+            alt="Right"
+            class="w-20 h-20"
+          />
+        </button>
+      </div>
     </main>
 
     <Footer />

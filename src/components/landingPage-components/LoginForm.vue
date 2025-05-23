@@ -1,3 +1,4 @@
+<!-- Login Modal/Overlay -->
 <template>
   <!--Sign Up Form-->
   <div class="flex items-center justify-center">
@@ -19,7 +20,7 @@
 
         <!-- Login Button (on top) -->
         <button class="absolute top-0 left-[110px] w-[150px] h-10 bg-[#6EA1AA] rounded-3xl border border-slate-400 z-10"
-                @click="$emit('trigger-login')">
+                @click="$emit('handleLogin')">
           <span class="text-white font-bold font-roboto text-lg">Login</span>
         </button>
       </div>
@@ -48,7 +49,7 @@
 
       <!--Login Button-->
       <button class="w-40 h-10 bg-[#6EA1AA] rounded-3xl border border-slate-400 mt-5 justify-center flex items-center mx-auto"
-                @click="$emit('trigger-login')">
+                @click="handleLogin">
           <span class="  text-white font-bold font-roboto text-lg">Login</span>
       </button>
 
@@ -64,9 +65,17 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const confirmpass = ref('')
+
+const router = useRouter()
+
+function handleLogin() {
+  // Simulate successful login by navigating to the HomePage route
+  router.push({ name: 'HomePage' }) 
+}
 
 </script>

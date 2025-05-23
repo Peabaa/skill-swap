@@ -1,6 +1,6 @@
+<!-- Header -->
 <template>
-  <!-- Header -->
-  <header class="bg-[#6EA1AA] shadow-md px-7 py-2.5">
+  <header class="fixed top-0 left-0 w-full z-50 bg-[#6EA1AA] shadow-md px-7 py-2.5">
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-6">
         <p class="font-sofia text-[48px] font-bold italic text-white text-shadow-lg/30">SkillSwap</p>
@@ -37,7 +37,7 @@
         <div
           v-if="showFilters"
           ref="dropdownRef"
-          class="absolute top-[60px] left-[500px] bg-white border-2 border-[#03262B] shadow-lg p-4 z-50 w-[200px]"
+          class="absolute z-50 top-[60px] left-[500px] bg-white border-2 border-[#03262B] shadow-lg p-4 w-[200px]"
         >
           <p class="font-roboto font-bold italic text-[#03262B] mb-2">Sort by:</p>
           <ul class="font-roboto font-semibold space-y-2">
