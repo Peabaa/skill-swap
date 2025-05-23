@@ -47,63 +47,51 @@
 
         <!-- Skill Cards Grid -->
         <div class="relative flex items-center px-28 py-12">
-        <!-- Left Button -->
-        <button
-          class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
-        >
-          <img
-            src="@/assets/images/Circle_Carret_Right.png"
-            alt="Left"
-            class="w-20 h-20 rotate-180"
-          />
-        </button>
-
-        <!-- Skill Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-          <div class="relative flex flex-col items-center">
-            <img 
-              src="@/assets/images/languageSkill.png"
-              alt="Language & Communication"
-              class="w-90 h-90 rounded-2xl shadow-lg"
+          <!-- Left Button -->
+          <button
+            @click="shiftLeft"
+            class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
+          >
+            <img
+              src="@/assets/images/Circle_Carret_Right.png"
+              alt="Left"
+              class="w-20 h-20 rotate-180"
             />
-            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
-              Language & Communication
-            </div>
-          </div>
+          </button>
 
-          <div class="relative flex flex-col items-center">
-            <img 
-              src="@/assets/images/musicSkill.png"
-              alt="Music & Performance"
-              class="w-90 h-90 rounded-2xl shadow-lg"
+          <!-- Skill Cards with animation -->
+          <transition-group
+            name="skill-shift"
+            tag="div"
+            class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full"
+          >
+            <div
+              v-for="skill in skills"
+              :key="skill.label"
+              class="relative flex flex-col items-center"
+            >
+              <img 
+                :src="skill.image"
+                :alt="skill.label"
+                class="w-90 h-90 rounded-2xl shadow-lg"
+              />
+              <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
+                {{ skill.label }}
+              </div>
+            </div>
+          </transition-group>
+
+          <!-- Right Button -->
+          <button
+            @click="shiftRight"
+            class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+          >
+            <img
+              src="@/assets/images/Circle_Carret_Right.png"
+              alt="Right"
+              class="w-20 h-20"
             />
-            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
-              Music & Performance
-            </div>
-          </div>
-
-          <div class="relative flex flex-col items-center">
-            <img 
-              src="@/assets/images/cookingSkill.png"
-              alt="Cooking & Pastry Arts"
-              class="w-90 h-90 rounded-2xl shadow-lg"
-            />
-            <div class="font-roboto text-xl absolute -bottom-5 bg-[#6EA1AA] text-white font-bold px-6 py-2 rounded-full shadow-md">
-              Cooking & Pastry Arts
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Button -->
-        <button
-          class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
-        >
-          <img
-            src="@/assets/images/Circle_Carret_Right.png"
-            alt="Right"
-            class="w-20 h-20"
-          />
-        </button>
+          </button>
       </div>
     </main>
 
@@ -117,8 +105,45 @@ import { ref } from 'vue'
 import Header from './landingPage-components/Header.vue'
 import LoginForm from './landingPage-components/LoginForm.vue'
 import SignUpForm from './landingPage-components/SignUpForm.vue'
-import Footer from './landingPage-components/Footer.vue';
+import Footer from './landingPage-components/Footer.vue'
+
+// Explicitly import images
+import languageSkill from '@/assets/images/languageSkill.png'
+import musicSkill from '@/assets/images/musicSkill.png'
+import cookingSkill from '@/assets/images/cookingSkill.png'
 
 const showLogin = ref(false)
 const showSignUp = ref(false)
+
+const skills = ref([
+  {
+    image: languageSkill,
+    label: "Language & Communication"
+  },
+  {
+    image: musicSkill,
+    label: "Music & Performance"
+  },
+  {
+    image: cookingSkill,
+    label: "Cooking & Pastry Arts"
+  }
+])
+
+const shiftLeft = () => {
+  const first = skills.value.shift()
+  skills.value.push(first)
+}
+
+const shiftRight = () => {
+  const last = skills.value.pop()
+  skills.value.unshift(last)
+}
+
 </script>
+
+<style scoped>
+.skill-shift-move {
+  transition: transform 0.5s ease;
+}
+</style>
