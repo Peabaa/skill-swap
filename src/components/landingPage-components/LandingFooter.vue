@@ -1,4 +1,4 @@
-<!-- Footer -->
+<!-- Landing Footer -->
 <template>
     <footer class="bg-[#6EA1AA] shadow-md px-7 py-2.5">
         <div class="flex justify-between items-center">

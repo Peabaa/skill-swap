@@ -1,7 +1,7 @@
 <!-- Landing Page -->
 <template>
   <div class="min-h-screen flex flex-col bg-[#03262B]">
-    <Header 
+    <LandingHeader 
       @trigger-login="showLogin = true"
       @trigger-signup="showSignUp = true"
     />
@@ -25,7 +25,7 @@
     </div>
     <main class="flex-1 pt-22">
       <!-- Page content goes here -->  
-       <div class="relative w-full">
+      <div class="relative w-full">
         <p class=" font-sofia text-[53px] text-white text-4xl italic text-shadow-lg absolute top-18 left-28">
           Trade What You Know <br>
           Learn What You Don’t
@@ -40,7 +40,7 @@
           alt="Logo"
           class="object-contain"
         />
-       </div>
+      </div>
        <p class=" font-sofia text-[53px] text-white text-4xl italic text-shadow-lg ml-[113px] mt-[25px]">
           Skill Categories
         </p>
@@ -95,19 +95,18 @@
       </div>
     </main>
 
-    <Footer />
+    <LandingFooter />
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue'
-import Header from './landingPage-components/Header.vue'
+import LandingHeader from './landingPage-components/LandingHeader.vue'
 import LoginForm from './landingPage-components/LoginForm.vue'
 import SignUpForm from './landingPage-components/SignUpForm.vue'
-import Footer from './landingPage-components/Footer.vue'
+import LandingFooter from './landingPage-components/LandingFooter.vue'
 
-// Explicitly import images
+// Skills images
 import languageSkill from '@/assets/images/languageSkill.png'
 import musicSkill from '@/assets/images/musicSkill.png'
 import cookingSkill from '@/assets/images/cookingSkill.png'

@@ -1,4 +1,4 @@
-<!-- Header -->
+<!-- Landing Header -->
 <template>
   <header class="fixed top-0 left-0 w-full z-50 bg-[#6EA1AA] shadow-md px-7 py-2.5">
     <div class="flex justify-between items-center">
