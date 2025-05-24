@@ -10,6 +10,11 @@ const routes = [
     path: '/home',
     name: 'HomePage',
     component: () => import('@/components/HomePage.vue') // display HomePage when visiting /
+  },
+  {
+    path: '/search-results/:skill',
+    name: 'SearchResultsPage',
+    component: () => import('@/components/SearchResultsPage.vue') //display SearchResultsPage when visiting /search-results/:skill
   }
 ]
 
