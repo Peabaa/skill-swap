@@ -4,17 +4,19 @@ const routes = [
   {
     path: '/',
     name: 'LandingPage',
-    component: () => import('@/components/LandingPage.vue') // Shows first
+    component: () => import('@/components/LandingPage.vue'), // Shows first
+    meta: { title: 'SkillSwap' }
   },
   {
     path: '/home',
     name: 'HomePage',
-    component: () => import('@/components/HomePage.vue') // display HomePage when visiting /
+    component: () => import('@/components/HomePage.vue'),
+    meta: { title: 'SkillSwap - Home' }
   },
   {
     path: '/search-results/:skill',
     name: 'SearchResultsPage',
-    component: () => import('@/components/SearchResultsPage.vue') //display SearchResultsPage when visiting /search-results/:skill
+    component: () => import('@/components/SearchResultsPage.vue') 
   }
 ]
 
@@ -22,5 +24,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+router.afterEach((to) => {
+  const defaultTitle = 'SkillSwap';
+  document.title = to.meta.title || defaultTitle;
+});
 
 export default router

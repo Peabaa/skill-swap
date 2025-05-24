@@ -47,6 +47,11 @@
         />
       </div>
 
+      <!-- Feedback Message -->
+      <div class="text-center mt-4">
+        <p v-if="errorMessage" class="text-red-600 font-semibold">{{ errorMessage }}</p>
+      </div>
+
       <!--Login Button-->
       <button class="w-40 h-10 bg-[#6EA1AA] rounded-3xl border border-slate-400 mt-5 justify-center flex items-center mx-auto"
                 @click="handleLogin">
@@ -69,13 +74,38 @@ import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
-const confirmpass = ref('')
-
+const errorMessage = ref('')
 const router = useRouter()
 
-function handleLogin() {
-  // Simulate successful login by navigating to the HomePage route
-  router.push({ name: 'HomePage' }) 
+async function handleLogin() {
+  errorMessage.value = ''
+
+  if (!email.value || !password.value) {
+    errorMessage.value = 'Please fill in both fields.'
+    return
+  }
+
+  try {
+    const response = await fetch('http://localhost/skillSwapPHP/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
+    })
+
+    const result = await response.json()
+
+    if (response.ok && result.success) {
+      router.push({ name: 'HomePage' }) // Navigate on success
+    } else {
+      errorMessage.value = result.message || 'Invalid email or password.'
+    }
+  } catch (error) {
+    console.error(error)
+    errorMessage.value = 'Something went wrong. Please try again.'
+  }
 }
 
 </script>

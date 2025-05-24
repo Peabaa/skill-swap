@@ -1,0 +1,17 @@
+== BACKEND INSTRUCTIONS ==
+
+++ MySQL Setup ++
+1.) create a database named "skillswapusers"
+
+2.) Copy and paste the SQL code:
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+++ PHP Setup ++
+1.) copy call PHP files inside src/backend folder. Paste the PHP files inside your htdocs folder of XAMPP.

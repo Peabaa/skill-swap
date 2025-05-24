@@ -41,7 +41,7 @@
         
         <input 
           v-model="password"
-          type="text"
+          type="password"
           placeholder="Password"
           class="font-roboto font-bold flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
         />
@@ -52,15 +52,21 @@
         
         <input 
           v-model="confirmpass"
-          type="text"
+          type="password"
           placeholder="Confirm Password"
           class="font-roboto font-bold flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
         />
       </div>
 
+      <!-- Feedback Messages -->
+      <div class="text-center mt-4">
+        <p v-if="errorMessage" class="text-red-600 font-semibold">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="text-green-600 font-semibold">{{ successMessage }}</p>
+      </div>
+
       <!--Sign Up Button-->
       <button class="w-40 h-10 bg-[#6EA1AA] rounded-3xl border border-slate-400 mt-5 justify-center flex items-center mx-auto"
-                @click="$emit('trigger-signup')">
+                @click="handleSignup">
           <span class="  text-white font-bold font-roboto text-lg">Sign Up</span>
       </button>
 
@@ -80,5 +86,48 @@ import { ref } from 'vue'
 const email = ref('')
 const password = ref('')
 const confirmpass = ref('')
+const errorMessage = ref('')
+const successMessage = ref('')
 
+const handleSignup = async () => {
+  errorMessage.value = ''
+  successMessage.value = ''  
+  // Check if any fields are empty
+  if (!email.value || !password.value || !confirmpass.value) {
+    errorMessage.value = "Please fill in all fields."
+    return
+  }
+
+  if (password.value !== confirmpass.value) {
+    errorMessage.value = "Passwords do not match!"
+    return
+  }
+
+  try {
+    const response = await fetch('http://localhost/skillSwapPHP/signup.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
+    })
+
+    const result = await response.json()
+
+    if (response.ok) {
+      successMessage.value = "User registered successfully." // User registered successfully
+      errorMessage.value = ''
+      email.value = ''
+      password.value = ''
+      confirmpass.value = ''
+    } else {
+      errorMessage.value = "Email already be in use." // Email may already be in use
+      successMessage.value = ''
+    }
+  } catch (error) {
+    console.error(error)
+    errorMessage.value = 'Something went wrong. Please try again.'
+  }
+}
 </script>
