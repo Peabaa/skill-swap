@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen flex flex-col"
-        :style="selectedMode === 'barter' ? { backgroundColor: 'rgba(110, 161, 170, 0.44)' } : { backgroundColor: '#03262B' }">
+        :style="selectedMode === 'barter' ? { backgroundColor: 'rgba(110, 161, 170, 0.66)' } : { backgroundColor: '#03262B' }">
         <HomeHeader v-model:selectedMode="selectedMode" />
         <main class="flex-1 pt-22">
 
@@ -86,7 +86,8 @@
                             ref="carouselRef"
                         >
                             <Slide v-for="mentor in mentors" :key="mentor.id">
-                                <div class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2"
+                                     :class="selectedMode === 'barter' ? 'border-[#03262B]' : 'border-[#6EA1AA]'">
                                     <div class="flex flex-row items-center w-full mb-4">
                                         <img 
                                             class="w-20 h-20 rounded-full object-cover mr-4"
