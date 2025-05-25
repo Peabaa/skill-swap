@@ -1,18 +1,19 @@
 <template>
-    <div class="min-h-screen flex flex-col bg-[#03262B]">
-        <HomeHeader />
+    <div class="min-h-screen flex flex-col"
+        :style="selectedMode === 'barter' ? { backgroundColor: 'rgba(110, 161, 170, 0.44)' } : { backgroundColor: '#03262B' }">
+        <HomeHeader v-model:selectedMode="selectedMode" />
         <main class="flex-1 pt-22">
 
             <!--Search Results Header-->
             <div class="container mx-auto px-4">
-                <div class="text-left justify-center text-white text-5xl font-bold italic font-sofiacond [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[50px]">
+                <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold italic font-sofiacond [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[50px]">
                     {{ skill }}
                 </div>
 
                 <!--Filter by-->
                 <div class="flex items-center justify-between mt-[25px]">
                     <div class="flex items-center gap-4 filter-toggle">
-                        <div class="text-white text-3xl font-semibold font-roboto leading-10">
+                        <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-3xl font-semibold font-roboto leading-10">
                             Filter by:
                         </div>
                         <button
@@ -64,7 +65,7 @@
                 </div>
 
                 <div v-if="selectedFilter === 'All' || selectedFilter === 'Mentors'">
-                    <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                    <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Mentors
                     </div>
                     <!-- Mentors Carousel -->
@@ -114,10 +115,13 @@
                                         </ul>
                                     </div>
                                     <button 
-                                        class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
+                                        :class="[
+                                            'mt-[10px] w-32 h-9 rounded-3xl text-center justify-center text-base font-bold font-roboto leading-normal tracking-tight text-white',
+                                            requestedMentors.has(mentor.id) ? 'bg-gray-500' : 'bg-teal-800'
+                                        ]"
                                         @click="requestSwap(mentor.id)"
                                     >
-                                        Request Swap
+                                        {{ requestedMentors.has(mentor.id) ? 'Swap Requested' : 'Request Swap' }}
                                     </button>
                                 </div>
                             </Slide>
@@ -135,7 +139,7 @@
                     </div>
                 </div>
                 <div v-if="selectedFilter === 'All' || selectedFilter === 'Students'">
-                    <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                    <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Students
                     </div>
                     <!-- Students Carousel -->
@@ -156,7 +160,8 @@
                             ref="studentsCarouselRef"
                         >
                             <Slide v-for="student in students" :key="student.id">
-                                <div class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2"
+                                     :class="selectedMode === 'barter' ? 'border-[#03262B]' : 'border-[#6EA1AA]'">
                                     <div class="flex flex-row items-center w-full mb-4">
                                         <img 
                                             class="w-20 h-20 rounded-full object-cover mr-4"
@@ -185,10 +190,13 @@
                                         </ul>
                                     </div>
                                     <button 
-                                        class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
+                                        :class="[
+                                            'mt-[10px] w-32 h-9 rounded-3xl text-center justify-center text-base font-bold font-roboto leading-normal tracking-tight text-white',
+                                            requestedStudents.has(student.id) ? 'bg-gray-500' : 'bg-teal-800'
+                                        ]"
                                         @click="requestStudentSwap(student.id)"
                                     >
-                                        Request Swap
+                                        {{ requestedStudents.has(student.id) ? 'Swap Requested' : 'Request Swap' }}
                                     </button>
                                 </div>
                             </Slide>
@@ -207,7 +215,7 @@
                 </div>
             </div>
         </main>
-        <HomeFooter />
+        <HomeFooter :selectedMode="selectedMode" />
     </div>
 </template>
 
@@ -236,6 +244,9 @@ const carouselRef = ref(null)
 const studentsCarouselRef = ref(null)
 const selectedFilter = ref('All')
 const showAll = ref(false)
+const requestedMentors = ref(new Set())
+const requestedStudents = ref(new Set())
+const selectedMode = ref('1on1')
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event) => {
@@ -376,12 +387,12 @@ const students = ref([
 ])
 
 const requestSwap = (mentorId) => {
-    // Handle swap request
+    alert('Swap Requested')
     console.log(`Requesting swap with mentor ${mentorId}`)
 }
 
 const requestStudentSwap = (studentId) => {
-    // Handle swap request for students
+    alert('Swap Requested')
     console.log(`Requesting swap with student ${studentId}`)
 }
 </script>
