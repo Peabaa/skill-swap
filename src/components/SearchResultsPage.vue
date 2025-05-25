@@ -11,15 +11,31 @@
 
                 <!--Filter by-->
                 <div class="flex items-center justify-between mt-[25px]">
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4 filter-toggle">
                         <div class="text-white text-3xl font-semibold font-roboto leading-10">
                             Filter by:
                         </div>
-                        <button class="w-44 h-11 text-center justify-center text-teal-950 text-2xl font-bold font-roboto leading-7 bg-white rounded-3xl border border-white"
-                            @click="$emit('trigger-login')">Mentors
+                        <button
+                          :class="[
+                            'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                            selectedFilter === 'Mentors'
+                              ? 'bg-[#6EA1AA] text-white border-none'
+                              : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                          ]"
+                          @click="selectedFilter = selectedFilter === 'Mentors' ? 'All' : 'Mentors'"
+                        >
+                          Mentors
                         </button>
-                        <button class="w-44 h-11 text-center justify-center text-teal-950 text-2xl font-bold font-roboto leading-7 bg-white rounded-3xl border border-white"
-                            @click="$emit('trigger-login')">Students
+                        <button
+                          :class="[
+                            'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                            selectedFilter === 'Students'
+                              ? 'bg-[#6EA1AA] text-white border-none'
+                              : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                          ]"
+                          @click="selectedFilter = selectedFilter === 'Students' ? 'All' : 'Students'"
+                        >
+                          Students
                         </button>
                     </div>
                     <div class="relative">
@@ -47,160 +63,147 @@
                     </div>
                 </div>
 
-                <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                <div v-if="selectedFilter === 'All' || selectedFilter === 'Mentors'">
+                    <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Mentors
-                </div>
-
-                <!-- Mentors Grid -->
-                <div class="relative flex items-center px-28 py-12">
-                    <!-- Left Button -->
-                    <button
-                        @click="shiftLeft"
-                        class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
-                    >
-                        <img
-                            src="@/assets/images/Circle_Carret_Right.png"
-                            alt="Left"
-                            class="w-20 h-20 rotate-180"
-                        />
-                    </button>
-
-                    <!-- Mentor Cards with animation -->
-                    <transition-group
-                        name="skill-shift"
-                        tag="div"
-                        class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full"
-                    >
-                        <div
-                            v-for="mentor in mentors"
-                            :key="mentor.id"
-                            class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5"
+                    </div>
+                    <!-- Mentors Carousel -->
+                    <div class="relative flex items-center px-28 py-12">
+                        <button
+                            @click="carouselRef?.prev()"
+                            class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
                         >
-                            <div class="flex flex-row items-center w-full mb-4">
-                                <img 
-                                    class="w-20 h-20 rounded-full object-cover mr-4"
-                                    :src="mentor.image"
-                                    :alt="mentor.name"
-                                />
-                                <div>
-                                    <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ mentor.name }}</div>
-                                    <div class="text-lg text-[#4B6A6A]">{{ mentor.specialty }}</div>
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Left"
+                                class="w-20 h-20 rotate-180"
+                            />
+                        </button>
+                        <Carousel 
+                            v-bind="carouselConfig" 
+                            class="w-full"
+                            ref="carouselRef"
+                        >
+                            <Slide v-for="mentor in mentors" :key="mentor.id">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2">
+                                    <div class="flex flex-row items-center w-full mb-4">
+                                        <img 
+                                            class="w-20 h-20 rounded-full object-cover mr-4"
+                                            :src="mentor.image"
+                                            :alt="mentor.name"
+                                        />
+                                        <div>
+                                            <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ mentor.name }}</div>
+                                            <div class="text-lg text-[#4B6A6A]">{{ mentor.specialty }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skills Offered:</div>
+                                    <div class="mb-4 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li v-for="skill in mentor.skills" :key="skill.name" class="text-left">
+                                                {{ skill.name }} ({{ skill.requests }} Requests)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Exchange Offer:</div>
+                                    <div class="mb-0 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li v-for="offer in mentor.exchangeOffer" :key="offer" class="text-left">
+                                                {{ offer }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button 
+                                        class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
+                                        @click="requestSwap(mentor.id)"
+                                    >
+                                        Request Swap
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skills Offered:</div>
-                            <div class="mb-4 w-full">
-                                <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
-                                    <li v-for="skill in mentor.skills" :key="skill.name" class="text-left">
-                                        {{ skill.name }} ({{ skill.requests }} Requests)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Exchange Offer:</div>
-                            <div class="mb-0 w-full">
-                                <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
-                                    <li v-for="offer in mentor.exchangeOffer" :key="offer" class="text-left">
-                                        {{ offer }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <button 
-                                class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
-                                @click="requestSwap(mentor.id)"
-                            >
-                                Request Swap
-                            </button>
-                        </div>
-                    </transition-group>
-
-                    <!-- Right Button -->
-                    <button
-                        @click="shiftRight"
-                        class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
-                    >
-                        <img
-                            src="@/assets/images/Circle_Carret_Right.png"
-                            alt="Right"
-                            class="w-20 h-20"
-                        />
-                    </button>
+                            </Slide>
+                        </Carousel>
+                        <button
+                            @click="carouselRef?.next()"
+                            class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Right"
+                                class="w-20 h-20"
+                            />
+                        </button>
+                    </div>
                 </div>
-
-                <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                <div v-if="selectedFilter === 'All' || selectedFilter === 'Students'">
+                    <div class="text-left justify-center text-white text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Students
-                </div>
-
-                <!-- Students Grid -->
-                <div class="relative flex items-center px-28 py-12">
-                    <!-- Left Button -->
-                    <button
-                        @click="shiftLeftStudents"
-                        class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
-                    >
-                        <img
-                            src="@/assets/images/Circle_Carret_Right.png"
-                            alt="Left"
-                            class="w-20 h-20 rotate-180"
-                        />
-                    </button>
-
-                    <!-- Student Cards with animation -->
-                    <transition-group
-                        name="skill-shift"
-                        tag="div"
-                        class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full"
-                    >
-                        <div
-                            v-for="student in students"
-                            :key="student.id"
-                            class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5"
+                    </div>
+                    <!-- Students Carousel -->
+                    <div class="relative flex items-center px-28 py-12">
+                        <button
+                            @click="studentsCarouselRef?.prev()"
+                            class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
                         >
-                            <div class="flex flex-row items-center w-full mb-4">
-                                <img 
-                                    class="w-20 h-20 rounded-full object-cover mr-4"
-                                    :src="student.image"
-                                    :alt="student.name"
-                                />
-                                <div>
-                                    <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ student.name }}</div>
-                                    <div class="text-lg text-[#4B6A6A]">{{ student.specialty }}</div>
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Left"
+                                class="w-20 h-20 rotate-180"
+                            />
+                        </button>
+                        <Carousel 
+                            v-bind="studentsCarouselConfig" 
+                            class="w-full"
+                            ref="studentsCarouselRef"
+                        >
+                            <Slide v-for="student in students" :key="student.id">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] border-[#6EA1AA] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2">
+                                    <div class="flex flex-row items-center w-full mb-4">
+                                        <img 
+                                            class="w-20 h-20 rounded-full object-cover mr-4"
+                                            :src="student.image"
+                                            :alt="student.name"
+                                        />
+                                        <div>
+                                            <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ student.name }}</div>
+                                            <div class="text-lg text-[#4B6A6A]">{{ student.specialty }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skills Offered:</div>
+                                    <div class="mb-4 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li v-for="skill in student.skills" :key="skill.name" class="text-left">
+                                                {{ skill.name }} ({{ skill.requests }} Requests)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Exchange Offer:</div>
+                                    <div class="mb-0 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li v-for="offer in student.exchangeOffer" :key="offer" class="text-left">
+                                                {{ offer }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button 
+                                        class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
+                                        @click="requestStudentSwap(student.id)"
+                                    >
+                                        Request Swap
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skills Offered:</div>
-                            <div class="mb-4 w-full">
-                                <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
-                                    <li v-for="skill in student.skills" :key="skill.name" class="text-left">
-                                        {{ skill.name }} ({{ skill.requests }} Requests)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Exchange Offer:</div>
-                            <div class="mb-0 w-full">
-                                <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
-                                    <li v-for="offer in student.exchangeOffer" :key="offer" class="text-left">
-                                        {{ offer }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <button 
-                                class="mt-[10px] w-32 h-9 bg-teal-800 rounded-3xl text-center justify-center text-white text-base font-bold font-roboto leading-normal tracking-tight"
-                                @click="requestStudentSwap(student.id)"
-                            >
-                                Request Swap
-                            </button>
-                        </div>
-                    </transition-group>
-
-                    <!-- Right Button -->
-                    <button
-                        @click="shiftRightStudents"
-                        class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
-                    >
-                        <img
-                            src="@/assets/images/Circle_Carret_Right.png"
-                            alt="Right"
-                            class="w-20 h-20"
-                        />
-                    </button>
+                            </Slide>
+                        </Carousel>
+                        <button
+                            @click="studentsCarouselRef?.next()"
+                            class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Right"
+                                class="w-20 h-20"
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -213,6 +216,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import HomeHeader from './homePage-components/HomeHeader.vue'
 import HomeFooter from './homePage-components/HomeFooter.vue'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import 'vue3-carousel/carousel.css'
 
 //Import mentor images
 import taylorSwift from '@/assets/images/taylor swift.png'
@@ -227,6 +232,10 @@ const router = useRouter()
 const skill = ref('')
 const showFilters = ref(false)
 const dropdownRef = ref(null)
+const carouselRef = ref(null)
+const studentsCarouselRef = ref(null)
+const selectedFilter = ref('All')
+const showAll = ref(false)
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event) => {
@@ -258,6 +267,37 @@ const getSkillImage = (skillName) => {
             return cookingSkill
         default:
             return ''
+    }
+}
+
+const carouselConfig = {
+    itemsToShow: 3,
+    wrapAround: true,
+    snapAlign: 'start',
+    transition: 500,
+    modelValue: 0,
+    breakpoints: {
+        700: {
+            itemsToShow: 2,
+        },
+        1024: {
+            itemsToShow: 3,
+        }
+    }
+}
+
+// Add separate config for students to handle 4 items
+const studentsCarouselConfig = {
+    ...carouselConfig,
+    itemsToShow: 3,
+    modelValue: 0,
+    breakpoints: {
+        700: {
+            itemsToShow: 2,
+        },
+        1024: {
+            itemsToShow: 3,
+        }
     }
 }
 
@@ -332,28 +372,8 @@ const students = ref([
             { name: "Stage Presence", requests: 15 }
         ],
         exchangeOffer: ["French Fluency", "Casual English"]
-    }
+    },
 ])
-
-const shiftLeft = () => {
-    const first = mentors.value.shift()
-    mentors.value.push(first)
-}
-
-const shiftRight = () => {
-    const last = mentors.value.pop()
-    mentors.value.unshift(last)
-}
-
-const shiftLeftStudents = () => {
-    const first = students.value.shift()
-    students.value.push(first)
-}
-
-const shiftRightStudents = () => {
-    const last = students.value.pop()
-    students.value.unshift(last)
-}
 
 const requestSwap = (mentorId) => {
     // Handle swap request
@@ -380,5 +400,47 @@ const requestStudentSwap = (studentId) => {
 .skill-shift-leave-to {
     opacity: 0;
     transform: translateX(30px);
+}
+
+/* Carousel Custom Styles */
+:deep(.carousel__viewport) {
+    perspective: 1000px;
+}
+
+:deep(.carousel__track) {
+    padding: 20px 0;
+    min-height: 440px; /* Ensures all slides align to the tallest card, adjust as needed */
+    display: flex;
+    align-items: stretch;
+}
+
+:deep(.carousel__slide) {
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+:deep(.carousel__slide > div) {
+    min-height: 420px; /* Ensures all cards have the same minimum height */
+    height: 100%;
+    width: 440px;      /* Set your desired fixed width */
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    margin: 0 auto;    /* Center the card in the slide */
+}
+
+/* Hide default navigation */
+:deep(.carousel__prev),
+:deep(.carousel__next) {
+    display: none;
+}
+
+.filter-toggle button {
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 </style>
