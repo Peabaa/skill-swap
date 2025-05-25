@@ -25,6 +25,11 @@
         </button>
       </div>
 
+      <!-- Feedback Message -->
+      <div class="text-center mt-4">
+        <p v-if="showWarning" class="text-yellow-500 font-semibold">{{ loginNotice }}</p>
+      </div>
+
       <!-- Email Box -->
       <div class="w-[330px] h-10 bg-[rgba(255,255,255,0.7)] rounded-3xl border border-zinc-400 mx-auto flex items-center">
         
@@ -41,7 +46,7 @@
         
         <input 
           v-model="password"
-          type="text"
+          type="password"
           placeholder="Password"
           class="font-roboto font-bold flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
         />
@@ -71,6 +76,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+defineProps({
+  showWarning: Boolean,
+  loginNotice: String
+})
 
 const email = ref('')
 const password = ref('')

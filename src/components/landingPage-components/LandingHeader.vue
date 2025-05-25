@@ -23,6 +23,8 @@
           type="text"
           placeholder="Search"
           class="font-roboto flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
+          @focus="$emit('search-login-required')"
+          readonly
         />
 
         <!-- Search Filter Button -->

@@ -15,7 +15,7 @@
       </div>
       
       <!-- Search Bar -->
-      <div class="w-[590px] h-[40px] -translate-x-32 flex items-center bg-white rounded-3xl relative"> 
+      <div class="w-[590px] h-[40px] -translate-x-10 flex items-center bg-white rounded-3xl relative"> 
         <img 
           src="@/assets/images/searchIcon.png"
           alt="Search"
@@ -52,7 +52,7 @@
       </div> 
 
         <!--1 on 1/ Barter Chain Button-->
-        <div class="relative w-40 h-12 ml-4">
+        <div class="relative w-40 h-12 ml-4 right-25">
           <!-- 1 On 1 Button (under) -->
           <button
             class="absolute top-0 left-5 w-35 h-12 rounded-3xl border text-center justify-center font-roboto text-2xl font-bold leading-7 transition-colors duration-200 focus:outline-none pr-5"
@@ -74,20 +74,38 @@
             Barter Chains
           </button>
         </div>
-        <!-- Dashboard Button -->
-        <div class="flex items-center">
-            <button class="flex items-center gap-x-2 font-roboto text-[25px] text-4xl font-bold"
-                    :class="selectedMode === 'barter' ? 'text-white' : 'text-white'"
-                    @click="$emit('trigger-login')"
-            >
-                Dashboard
-                <img 
-                    src="@/assets/images/UserCircle.png" 
-                    alt="User Icon" 
-                    class="w-15 h-15"
-                    :style="selectedMode === 'barter' ? 'filter: brightness(200%)' : ''"
-                />
-            </button>
+        <!-- Dashboard Button with Dropdown -->
+        <div class="relative" ref="dashboardMenuRef">
+          <button
+            class="flex items-center gap-x-2 font-roboto text-[25px] text-4xl font-bold"
+            :class="selectedMode === 'barter' ? 'text-white' : 'text-white'"
+            @click="showDashboardMenu = !showDashboardMenu"
+          >
+            Dashboard
+            <img 
+              src="@/assets/images/UserCircle.png" 
+              alt="User Icon" 
+              class="w-15 h-15"
+              :style="selectedMode === 'barter' ? 'filter: brightness(200%)' : ''"
+            />
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            v-if="showDashboardMenu"
+            class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+          >
+            <ul class="py-2">
+              <li>
+                <button
+                  class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 font-roboto font-semibold"
+                  @click="handleLogout"
+                >
+                  Log Out
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
     </div>
   </header>
@@ -110,6 +128,13 @@ const router = useRouter()
 const searchBar = ref('')
 const showFilters = ref(false)
 const dropdownRef = ref(null)
+const showDashboardMenu = ref(false)
+const dashboardMenuRef = ref(null)
+
+const handleLogout = () => {
+  emit('logout')
+  showDashboardMenu.value = false
+}
 
 const goToHome = () => {
   router.push({ name: 'HomePage' })
@@ -121,5 +146,9 @@ const setMode = (mode) => {
 
 onClickOutside(dropdownRef, () => {
   showFilters.value = false
+})
+
+onClickOutside(dashboardMenuRef, () => {
+  showDashboardMenu.value = false
 })
 </script>

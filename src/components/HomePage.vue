@@ -2,7 +2,10 @@
 <template>
     <div class="min-h-screen flex flex-col"
          :style="selectedMode === 'barter' ? { backgroundColor: 'rgba(110, 161, 170, 0.44)' } : { backgroundColor: '#03262B' }">
-        <HomeHeader v-model:selectedMode="selectedMode"/>
+        <HomeHeader 
+          v-model:selectedMode="selectedMode"
+          @logout="handleLogout"
+        />
         
         <main class="flex-1 pt-22">
             <div class="relative w-full">

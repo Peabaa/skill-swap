@@ -4,11 +4,16 @@
     <LandingHeader 
       @trigger-login="showLogin = true"
       @trigger-signup="showSignUp = true"
+      @search-login-required="showLogin = true; showLoginWarning = true; loginNotice = 'Please log in first to search.'"
     />
 
     <!-- Login Overlay -->
     <div v-if="showLogin" class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.6)] flex items-center justify-center">
-      <LoginForm @close="showLogin = false" @trigger-signup="showLogin = false; showSignUp = true"/>
+      <LoginForm
+      :showWarning="showLoginWarning"
+      :loginNotice="loginNotice"
+      @close="showLogin = false; showLoginWarning = false"
+      @trigger-signup="showLogin = false; showSignUp = true; showLoginWarning = false"/>
     </div>
 
     <!-- Signup Overlay -->
@@ -37,21 +42,34 @@
 
       <section class="relative flex items-center px-28 py-12">
         <!-- Left Arrow -->
-        <button @click="carouselRef?.prev()" class="absolute left-0 z-10 hover:scale-105 transition">
-          <img src="@/assets/images/Circle_Carret_Right.png" alt="Left" class="w-20 h-20 rotate-180" />
+        <button
+          @click="carouselRef?.prev()"
+          class="absolute left-30 z-10 transform -translate-x-full hover:scale-105 transition"
+        >
+          <img
+            src="@/assets/images/Circle_Carret_Right.png"
+            alt="Left"
+            class="w-20 h-20 rotate-180"
+          />
         </button>
 
         <!-- Carousel -->
         <Carousel v-bind="carouselConfig" class="w-full" ref="carouselRef">
           <Slide v-for="skill in skills" :key="skill.label">
-            <div class="relative flex flex-col items-center mx-4 h-[24rem]">
-              <img 
-                :src="skill.image"
-                :alt="skill.label"
-                class="w-90 h-90 rounded-2xl shadow-lg"
-              />
-              <div 
-                class="absolute bottom-1 bg-[#6EA1AA] text-white text-center text-xl font-bold font-roboto px-5 py-2 rounded-full shadow-md"
+            <div class="relative flex flex-col items-center">
+              <button 
+                type="button"
+                class="group relative transition-transform hover:scale-105 focus:outline-none cursor-pointer"
+                @click="handleSkillClick(skill.image, skill.label)"
+              >
+                <img 
+                  :src="skill.image"
+                  :alt="skill.label"
+                  class="w-90 h-90 rounded-2xl shadow-lg"
+                />
+              </button>
+              <div
+                class="font-roboto text-xl absolute -bottom-5 font-bold px-6 py-2 rounded-full shadow-md bg-[#6EA1AA] text-white"
               >
                 {{ skill.label }}
               </div>
@@ -60,8 +78,15 @@
         </Carousel>
 
         <!-- Right Arrow -->
-        <button @click="carouselRef?.next()" class="absolute right-0 z-10 hover:scale-105 transition">
-          <img src="@/assets/images/Circle_Carret_Right.png" alt="Right" class="w-20 h-20" />
+        <button
+          @click="carouselRef?.next()"
+          class="absolute right-30 z-10 transform translate-x-full hover:scale-115 transition"
+        >
+          <img
+            src="@/assets/images/Circle_Carret_Right.png"
+            alt="Right"
+            class="w-20 h-20"
+          />
         </button>
       </section>
     </main>
@@ -73,6 +98,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Carousel, Slide } from 'vue3-carousel'
+import { useRouter } from 'vue-router'
 import 'vue3-carousel/carousel.css'
 
 import LandingHeader from './landingPage-components/LandingHeader.vue'
@@ -87,6 +113,8 @@ import cookingSkill from '@/assets/images/cookingSkill.png'
 
 const showLogin = ref(false)
 const showSignUp = ref(false)
+const showLoginWarning = ref(false)
+const loginNotice = ref("Please log in first to explore skill categories.")
 
 const skills = ref([
   {
@@ -128,4 +156,42 @@ const carouselConfig = {
     transition: 0,
   }
 }
+
+const router = useRouter()
+
+const handleSkillClick = (skillImage, skillLabel) => {
+  showLoginWarning.value = true
+  showLogin.value = true
+}
 </script>
+
+<style scoped>
+:deep(.carousel__viewport) {
+  perspective: 1000px;
+}
+
+:deep(.carousel__track) {
+  padding: 20px 0;
+  display: flex;
+  align-items: stretch;
+}
+
+:deep(.carousel__slide) {
+  padding: 0 10px;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+:deep(.carousel__slide > div) {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  margin: 0 auto;
+}
+
+</style>
