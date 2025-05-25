@@ -6,7 +6,7 @@ if (preg_match('/^http:\/\/localhost:\d+$/', $origin)) {
     header("Access-Control-Allow-Origin: $origin");
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Credentials: true"); // only if needed
+    header("Access-Control-Allow-Credentials: true"); 
 }
 
 // Handle preflight request
@@ -36,8 +36,7 @@ if (!$email || !$password) {
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-// Connect to MySQL (assuming root with no password for XAMPP)
-$conn = new mysqli("localhost", "root", "", "skillswapusers");
+$conn = new mysqli("sql12.freesqldatabase.com", "sql12781104", "gzbNBg7kY1", "sql12781104", 3306);
 
 if ($conn->connect_error) {
     http_response_code(500);

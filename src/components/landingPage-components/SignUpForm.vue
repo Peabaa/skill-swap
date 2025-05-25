@@ -91,10 +91,27 @@ const successMessage = ref('')
 
 const handleSignup = async () => {
   errorMessage.value = ''
-  successMessage.value = ''  
-  // Check if any fields are empty
+  successMessage.value = ''
+
   if (!email.value || !password.value || !confirmpass.value) {
     errorMessage.value = "Please fill in all fields."
+    return
+  }
+
+  // Basic email format check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email.value)) {
+    errorMessage.value = "Please enter a valid email address."
+    return
+  }
+
+  
+  const allowedTLDs = ['.com', '.org', '.edu.ph']
+  const emailLower = email.value.toLowerCase()
+
+  const matchesAllowedTLD = allowedTLDs.some(tld => emailLower.endsWith(tld))
+  if (!matchesAllowedTLD) {
+    errorMessage.value = "Please enter a valid email address."
     return
   }
 
@@ -116,13 +133,13 @@ const handleSignup = async () => {
     const result = await response.json()
 
     if (response.ok) {
-      successMessage.value = "User registered successfully." // User registered successfully
+      successMessage.value = "User registered successfully."
       errorMessage.value = ''
       email.value = ''
       password.value = ''
       confirmpass.value = ''
     } else {
-      errorMessage.value = "Email already be in use." // Email may already be in use
+      errorMessage.value = "Email may already be in use."
       successMessage.value = ''
     }
   } catch (error) {
@@ -130,4 +147,5 @@ const handleSignup = async () => {
     errorMessage.value = 'Something went wrong. Please try again.'
   }
 }
+
 </script>
