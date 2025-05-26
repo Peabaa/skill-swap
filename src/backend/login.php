@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // CORS headers
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
@@ -30,17 +32,25 @@ if ($conn->connect_error) {
 }
 
 // Look for user
-$stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows === 1) {
-    $stmt->bind_result($hashedPassword);
+    $stmt->bind_result($userId, $hashedPassword);
     $stmt->fetch();
 
     if (password_verify($password, $hashedPassword)) {
-        echo json_encode(["success" => true]);
+        session_regenerate_id(true); // Regenerate session ID for security
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['email'] = $email;
+
+        echo json_encode([
+            "success" => true,
+            "user_id" => $userId,
+            "email" => $email
+        ]);
     } else {
         http_response_code(401);
         echo json_encode(["message" => "Incorrect password."]);

@@ -143,6 +143,29 @@ const handleSkillClick = (skillImage, skillLabel) => {
   })
 }
 
+const handleLogout = async () => {
+  try {
+    const response = await fetch('http://localhost/skillSwapPHP/logout.php', {
+      method: 'POST',
+      credentials: 'include', // Important: sends cookies/session ID
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      router.push({ name: 'LandingPage' }) // Navigate to your landing route
+    } else {
+      console.error('Logout failed:', result.message)
+    }
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
+}
+
+
 </script>
 
 <style scoped>

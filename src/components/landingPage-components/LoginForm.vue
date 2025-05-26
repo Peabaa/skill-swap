@@ -99,6 +99,7 @@ async function handleLogin() {
     const response = await fetch('http://localhost/skillSwapPHP/login.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // Make sure to include this for session cookie
       body: JSON.stringify({
         email: email.value,
         password: password.value
@@ -108,7 +109,10 @@ async function handleLogin() {
     const result = await response.json()
 
     if (response.ok && result.success) {
-      router.push({ name: 'HomePage' }) // Navigate on success
+      // Log user info to console
+      console.log("Logged in user ID:", result.user_id);
+      console.log("Logged in user email:", result.email);
+      router.push({ name: 'HomePage' }); // Navigate to homepage
     } else {
       errorMessage.value = result.message || 'Invalid email or password.'
     }
