@@ -10,3 +10,5 @@ Password: gzbNBg7kY1
 
 ++ PHP Setup ++
 1.) copy call PHP files inside src/backend folder. Paste the PHP files inside your htdocs folder of XAMPP.
+
+2.) run Apache in your xampp control

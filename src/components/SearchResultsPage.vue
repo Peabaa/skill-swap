@@ -70,6 +70,19 @@
                     >
                         Request Swap
                     </button>
+
+                    <!-- Barter Info -->
+                    <div v-if="selectedMode === 'barter'" class="mt-4 text-left">
+                      <div class="text-lg font-semibold text-[#03262B]">Willing to Offer:</div>
+                      <ul class="list-disc list-inside text-[#4B6A6A]">
+                        <li v-for="(offer, idx) in result.willing_to_offer" :key="idx">{{ offer }}</li>
+                      </ul>
+                      <div class="mt-2 text-lg font-semibold text-[#03262B]">Needs Help With:</div>
+                      <ul class="list-disc list-inside text-[#4B6A6A]">
+                        <li v-for="(need, idx) in result.needs_help_with" :key="idx">{{ need }}</li>
+                      </ul>
+                    </div>
+
                   </div>
                 </div>
               </Slide>
@@ -124,22 +137,17 @@ const showSuccessMessage = () => {
   successMessageVisible.value = true
   fadeOut.value = false
 
-  // Fade out after 1.5s
   setTimeout(() => {
     fadeOut.value = true
   }, 1500)
 
-  // Hide completely after fade
   setTimeout(() => {
     successMessageVisible.value = false
   }, 2500)
 }
 
-// Simulate swap request
 const requestSwap = (result) => {
   console.log(`Swap request sent to ${result.email}`)
-
-  // Trigger the success message
   showSuccessMessage()
 }
 
@@ -161,7 +169,6 @@ const fetchResults = async () => {
     console.log('Raw response:', responseText)
     const data = JSON.parse(responseText)
 
-    // Remove duplicates by email
     const unique = new Map()
     for (const item of data.results || []) {
       if (!unique.has(item.email)) {
@@ -185,7 +192,6 @@ watch(() => route.query.q, (newQuery) => {
 </script>
 
 <style scoped>
-/* Carousel Custom Styles */
 :deep(.carousel__viewport) {
   perspective: 1000px;
 }
@@ -218,7 +224,6 @@ watch(() => route.query.q, (newQuery) => {
   display: none;
 }
 
-/* Fade transition class for success message */
 .opacity-0 {
   opacity: 0;
 }
