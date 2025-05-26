@@ -21,12 +21,8 @@
                               :class="[
                                 'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                                 selectedFilter === 'Mentors'
-                                  ? selectedMode === 'barter' 
-                                    ? 'bg-[#03262B] text-white border-none'
-                                    : 'bg-[#6EA1AA] text-white border-none'
-                                  : selectedMode === 'barter'
-                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                                  ? 'bg-[#6EA1AA] text-white border-none'
+                                  : 'bg-white text-[#03262B] border border-[#6EA1AA]'
                               ]"
                               @click="selectedFilter = selectedFilter === 'Mentors' ? 'All' : 'Mentors'"
                             >
@@ -36,12 +32,8 @@
                               :class="[
                                 'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                                 selectedFilter === 'Students'
-                                  ? selectedMode === 'barter' 
-                                    ? 'bg-[#03262B] text-white border-none'
-                                    : 'bg-[#6EA1AA] text-white border-none'
-                                  : selectedMode === 'barter'
-                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                                  ? 'bg-[#6EA1AA] text-white border-none'
+                                  : 'bg-white text-[#03262B] border border-[#6EA1AA]'
                               ]"
                               @click="selectedFilter = selectedFilter === 'Students' ? 'All' : 'Students'"
                             >
@@ -53,12 +45,8 @@
                               :class="[
                                 'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                                 selectedFilter === 'Open Chains'
-                                  ? selectedMode === 'barter' 
-                                    ? 'bg-[#03262B] text-white border-none'
-                                    : 'bg-[#6EA1AA] text-white border-none'
-                                  : selectedMode === 'barter'
-                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                                  ? 'bg-[#03262B] text-white border-none'
+                                  : 'bg-white text-[#03262B] border border-[#03262B]'
                               ]"
                               @click="selectedFilter = selectedFilter === 'Open Chains' ? 'All' : 'Open Chains'"
                             >
@@ -68,12 +56,8 @@
                               :class="[
                                 'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                                 selectedFilter === 'In Progress'
-                                  ? selectedMode === 'barter' 
-                                    ? 'bg-[#03262B] text-white border-none'
-                                    : 'bg-[#6EA1AA] text-white border-none'
-                                  : selectedMode === 'barter'
-                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                                  ? 'bg-[#03262B] text-white border-none'
+                                  : 'bg-white text-[#03262B] border border-[#03262B]'
                               ]"
                               @click="selectedFilter = selectedFilter === 'In Progress' ? 'All' : 'In Progress'"
                             >
@@ -89,7 +73,6 @@
                                 'w-10 h-8 object-contain cursor-pointer',
                                 selectedMode === 'barter' ? 'brightness-0' : 'brightness-0 invert'
                             ]"
-                            @click.stop="showFilters = !showFilters"
                         />
                         
                         <!-- Filter Dropdown -->
@@ -109,7 +92,7 @@
                     </div>
                 </div>
 
-                <div v-if="selectedFilter === 'All' || selectedFilter === 'Mentors'">
+                <div v-if="selectedMode === '1on1' && (selectedFilter === 'All' || selectedFilter === 'Mentors')">
                     <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Mentors
                     </div>
@@ -161,6 +144,7 @@
                                         </ul>
                                     </div>
                                     <button 
+                                        v-if="selectedMode === '1on1'"
                                         :class="[
                                             'mt-[10px] w-32 h-9 rounded-3xl text-center justify-center text-base font-bold font-roboto leading-normal tracking-tight text-white',
                                             requestedMentors.has(mentor.id) ? 'bg-gray-500' : 'bg-teal-800'
@@ -184,7 +168,170 @@
                         </button>
                     </div>
                 </div>
-                <div v-if="selectedFilter === 'All' || selectedFilter === 'Students'">
+                <div v-if="selectedMode === 'barter' && (selectedFilter === 'All' || selectedFilter === 'Open Chains')">
+                    <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                        Open Chains
+                    </div>
+                    <!-- Open Chains Carousel -->
+                    <div class="relative flex items-center px-28 py-12">
+                        <button
+                            @click="carouselRef?.prev()"
+                            class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Left"
+                                class="w-20 h-20 rotate-180"
+                            />
+                        </button>
+                        <Carousel 
+                            v-bind="carouselConfig" 
+                            class="w-full"
+                            ref="carouselRef"
+                        >
+                            <Slide v-for="chain in openChains" :key="chain.id">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2"
+                                     :class="selectedMode === 'barter' ? 'border-[#03262B]' : 'border-[#6EA1AA]'">
+                                    <div class="flex flex-row items-center w-full mb-4">
+                                        <img 
+                                            class="w-20 h-20 rounded-full object-cover mr-4"
+                                            :src="chain.image"
+                                            :alt="chain.name"
+                                        />
+                                        <div>
+                                            <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ chain.name }}</div>
+                                            <div class="text-lg text-[#4B6A6A]">{{ chain.specialty }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skill Offered:</div>
+                                    <div class="mb-4 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li class="text-left">
+                                                {{ chain.offers }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Skill Seeking:</div>
+                                    <div class="mb-4 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li class="text-left">
+                                                {{ chain.seeks }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Status:</div>
+                                    <div class="mb-0 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li class="text-left">
+                                                {{ chain.status }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button 
+                                        v-if="selectedMode === 'barter'"
+                                        :class="[
+                                            'mt-[10px] w-32 h-9 rounded-3xl text-center justify-center text-base font-bold font-roboto leading-normal tracking-tight text-white',
+                                            joinedChains.has(chain.id) ? 'bg-gray-500' : 'bg-teal-800'
+                                        ]"
+                                        @click="joinChain(chain.id)"
+                                    >
+                                        {{ joinedChains.has(chain.id) ? 'Joined' : 'Join Chain' }}
+                                    </button>
+                                </div>
+                            </Slide>
+                        </Carousel>
+                        <button
+                            @click="carouselRef?.next()"
+                            class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Right"
+                                class="w-20 h-20"
+                            />
+                        </button>
+                    </div>
+                </div>
+                <div v-if="selectedMode === 'barter' && (selectedFilter === 'All' || selectedFilter === 'In Progress')">
+                    <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
+                        In Progress
+                    </div>
+                    <!-- In Progress Chains Carousel -->
+                    <div class="relative flex items-center px-28 py-12">
+                        <button
+                            @click="studentsCarouselRef?.prev()"
+                            class="absolute left-27 z-10 transform -translate-x-full hover:scale-105 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Left"
+                                class="w-20 h-20 rotate-180"
+                            />
+                        </button>
+                        <Carousel 
+                            v-bind="studentsCarouselConfig" 
+                            class="w-full"
+                            ref="studentsCarouselRef"
+                        >
+                            <Slide v-for="chain in inProgressChains" :key="chain.id">
+                                <div class="relative flex flex-col items-center bg-white border-[5px] rounded-2xl shadow-lg px-5 pt-5 pb-5 mx-2"
+                                     :class="selectedMode === 'barter' ? 'border-[#03262B]' : 'border-[#6EA1AA]'">
+                                    <div class="flex flex-row items-center w-full mb-4">
+                                        <img 
+                                            class="w-20 h-20 rounded-full object-cover mr-4"
+                                            :src="chain.image"
+                                            :alt="chain.creator"
+                                        />
+                                        <div>
+                                            <div class="text-2xl font-bold text-[#03262B] leading-tight">{{ chain.creator }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Participants:</div>
+                                    <div class="mb-4 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li v-for="participant in chain.participants" :key="participant.name" class="text-left">
+                                                <div>{{ participant.name }}</div>
+                                                <ul class="ml-4">
+                                                    <li>Offers: {{ participant.offers }}</li>
+                                                    <li>Seeks: {{ participant.seeks }}</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full text-left text-teal-950 text-2xl font-semibold italic font-roboto leading-7 mb-1">Status:</div>
+                                    <div class="mb-0 w-full">
+                                        <ul class="list-disc ml-6 text-teal-950 text-xl font-normal font-roboto leading-relaxed">
+                                            <li class="text-left">
+                                                {{ chain.status }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button 
+                                        v-if="selectedMode === 'barter'"
+                                        :class="[
+                                            'mt-[10px] w-32 h-9 rounded-3xl text-center justify-center text-base font-bold font-roboto leading-normal tracking-tight text-white',
+                                            joinedChains.has(chain.id) ? 'bg-gray-500' : 'bg-teal-800'
+                                        ]"
+                                        @click="joinChain(chain.id)"
+                                    >
+                                        {{ joinedChains.has(chain.id) ? 'Joined' : 'Join Chain' }}
+                                    </button>
+                                </div>
+                            </Slide>
+                        </Carousel>
+                        <button
+                            @click="studentsCarouselRef?.next()"
+                            class="absolute right-27 z-10 transform translate-x-full hover:scale-115 transition"
+                        >
+                            <img
+                                src="@/assets/images/Circle_Carret_Right.png"
+                                alt="Right"
+                                class="w-20 h-20"
+                            />
+                        </button>
+                    </div>
+                </div>
+                <div v-if="selectedMode === '1on1' && (selectedFilter === 'All' || selectedFilter === 'Students')">
                     <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-left justify-center text-5xl font-bold font-sofiacond leading-[76.80px] [text-shadow:_5px_4px_4px_rgb(0_0_0_/_0.25)] mt-[20px]">
                         Students
                     </div>
@@ -293,6 +440,7 @@ const showAll = ref(false)
 const requestedMentors = ref(new Set())
 const requestedStudents = ref(new Set())
 const selectedMode = ref('1on1')
+const joinedChains = ref(new Set())
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event) => {
@@ -441,6 +589,99 @@ const requestStudentSwap = (studentId) => {
     alert('Swap Requested')
     console.log(`Requesting swap with student ${studentId}`)
 }
+
+const joinChain = (chainId) => {
+    alert('Chain Joined');
+    console.log(`Joining chain ${chainId}`);
+    joinedChains.add(chainId);
+}
+
+const openChains = [
+    {
+        id: 1,
+        name: "Taylor Swift",
+        specialty: "Public Speaker",
+        image: taylorSwift,
+        offers: "Public Seeking",
+        seeks: "Web Design",
+        status: "Open (1/3 slots filled)"
+    },
+    {
+        id: 2,
+        name: "Drake",
+        specialty: "Musician",
+        image: drake,
+        offers: "Singing",
+        seeks: "Public Speaking",
+        status: "Open (1/3 slots filled)"
+    },
+    {
+        id: 3,
+        name: "Keanu Reeves",
+        specialty: "Comedian",
+        image: keanuReeves,
+        offers: "Casual Spanish",
+        seeks: "Baking",
+        status: "Open (1/3 slots filled)"
+    }
+];
+
+const inProgressChains = [
+    {
+        id: 1,
+        creator: "Taylor Swift",
+        image: taylorSwift,
+        participants: [
+            {
+                name: "Taylor Swift",
+                offers: "Public Speaking",
+                seeks: "Music Production"
+            },
+            {
+                name: "Kanye West",
+                offers: "Music Production",
+                seeks: "Art Classes"
+            }
+        ],
+        status: "In Progress (2/3 slots filled)",
+    },
+    {
+        id: 2,
+        creator: "Drake",
+        image: drake,
+        participants: [
+            {
+                name: "Drake",
+                offers: "Rapping",
+                seeks: "Art Classes"
+            },
+            {
+                name: "Kendrick Lamar",
+                offers: "Art Classes",
+                seeks: "Casual Spanish"
+            }
+        ],
+        status: "In Progress (2/3 slots filled)",
+    },
+    {
+        id: 3,
+        creator: "Keanu Reeves",
+        image: keanuReeves,
+        participants: [
+            {
+                name: "Keanu Reeves",
+                offers: "Comedy",
+                seeks: "Public Speaking"
+            },
+            {
+                name: "Kendrick Lamar",
+                offers: "Public Speaking",
+                seeks: "Culture Etiquette"
+            }
+        ],
+        status: "In Progress (2/3 slots filled)",
+    }
+];
 </script>
 
 <style scoped>
