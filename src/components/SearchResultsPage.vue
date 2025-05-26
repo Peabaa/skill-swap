@@ -16,36 +16,70 @@
                         <div :class="selectedMode === 'barter' ? 'text-[#03262B]' : 'text-white'" class="text-3xl font-semibold font-roboto leading-10">
                             Filter by:
                         </div>
-                        <button
-                          :class="[
-                            'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
-                            selectedFilter === 'Mentors'
-                              ? selectedMode === 'barter' 
-                                ? 'bg-[#03262B] text-white border-none'
-                                : 'bg-[#6EA1AA] text-white border-none'
-                              : selectedMode === 'barter'
-                                ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                : 'bg-white text-[#03262B] border border-[#6EA1AA]'
-                          ]"
-                          @click="selectedFilter = selectedFilter === 'Mentors' ? 'All' : 'Mentors'"
-                        >
-                          Mentors
-                        </button>
-                        <button
-                          :class="[
-                            'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
-                            selectedFilter === 'Students'
-                              ? selectedMode === 'barter'
-                                ? 'bg-[#03262B] text-white border-none'
-                                : 'bg-[#6EA1AA] text-white border-none'
-                              : selectedMode === 'barter'
-                                ? 'bg-white text-[#03262B] border border-[#03262B]'
-                                : 'bg-white text-[#03262B] border border-[#6EA1AA]'
-                          ]"
-                          @click="selectedFilter = selectedFilter === 'Students' ? 'All' : 'Students'"
-                        >
-                          Students
-                        </button>
+                        <template v-if="selectedMode === '1on1'">
+                            <button
+                              :class="[
+                                'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                                selectedFilter === 'Mentors'
+                                  ? selectedMode === 'barter' 
+                                    ? 'bg-[#03262B] text-white border-none'
+                                    : 'bg-[#6EA1AA] text-white border-none'
+                                  : selectedMode === 'barter'
+                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ]"
+                              @click="selectedFilter = selectedFilter === 'Mentors' ? 'All' : 'Mentors'"
+                            >
+                              Mentors
+                            </button>
+                            <button
+                              :class="[
+                                'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                                selectedFilter === 'Students'
+                                  ? selectedMode === 'barter' 
+                                    ? 'bg-[#03262B] text-white border-none'
+                                    : 'bg-[#6EA1AA] text-white border-none'
+                                  : selectedMode === 'barter'
+                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ]"
+                              @click="selectedFilter = selectedFilter === 'Students' ? 'All' : 'Students'"
+                            >
+                              Students
+                            </button>
+                        </template>
+                        <template v-else>
+                            <button
+                              :class="[
+                                'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                                selectedFilter === 'Open Chains'
+                                  ? selectedMode === 'barter' 
+                                    ? 'bg-[#03262B] text-white border-none'
+                                    : 'bg-[#6EA1AA] text-white border-none'
+                                  : selectedMode === 'barter'
+                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ]"
+                              @click="selectedFilter = selectedFilter === 'Open Chains' ? 'All' : 'Open Chains'"
+                            >
+                              Open Chains
+                            </button>
+                            <button
+                              :class="[
+                                'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
+                                selectedFilter === 'In Progress'
+                                  ? selectedMode === 'barter' 
+                                    ? 'bg-[#03262B] text-white border-none'
+                                    : 'bg-[#6EA1AA] text-white border-none'
+                                  : selectedMode === 'barter'
+                                    ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                    : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ]"
+                              @click="selectedFilter = selectedFilter === 'In Progress' ? 'All' : 'In Progress'"
+                            >
+                              In Progress
+                            </button>
+                        </template>
                     </div>
                     <div class="relative">
                         <img 

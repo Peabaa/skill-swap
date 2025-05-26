@@ -52,6 +52,7 @@
           <button
             class="w-[700px] h-44 bg-[#D9D9D9] rounded-[40px] flex items-center justify-center transition hover:bg-[#bcbcbc] focus:outline-none"
             type="button"
+            @click="toggleAddSkillForm"
           >
             <span class="text-neutral-500 text-3xl font-normal font-roboto leading-9 tracking-wide">
               + Add New Skill
@@ -115,6 +116,31 @@
         </div>
       </div>
     </div>
+    <!-- Add New Skill Form Modal -->
+    <div v-if="showAddSkillForm" class="fixed inset-0 z-60 flex items-center justify-center">
+      <div class="fixed inset-0 w-full h-full bg-black opacity-60 z-50"></div>
+      <div class="relative z-60 w-full max-w-[650px] max-h-[960px] bg-[rgba(217,217,217,0.9)] rounded-3xl p-[40px_90px_40px_90px] border-8 border-neutral-500">
+        <button @click="toggleAddSkillForm" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="flex flex-col items-center">
+          <div class="w-[500px] h-16 opacity-70 bg-white rounded-3xl border border-zinc-400 mb-4">
+            <input 
+              v-model="skillname"
+              type="text"
+              placeholder="Skill Name"
+              class="font-roboto font-bold flex-1 bg-transparent outline-none text-gray-700 text-3xl mx-6 mt-3.5"
+            />
+          </div>
+          <button class="w-40 h-12 bg-[#696D6E] rounded-3xl border border-slate-400 justify-center flex items-center"
+                  @click="addSkill">
+            <span class="text-white font-bold font-roboto text-lg">Confirm</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -172,6 +198,22 @@ function prevSwap() {
 }
 function nextSwap() {
   if (currentSwapIndex.value < swapHistory.length - visibleSwapCount) currentSwapIndex.value++
+}
+
+const showAddSkillForm = ref(false)
+const skillname = ref('')
+
+function toggleAddSkillForm() {
+  showAddSkillForm.value = !showAddSkillForm.value
+}
+
+function addSkill() {
+  if (skillname.value.trim() !== '') {
+    alert('Skill Added');
+    skillname.value = '';
+  } else {
+    alert('Please enter a skill name');
+  }
 }
 </script>
 
