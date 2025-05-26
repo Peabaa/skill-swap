@@ -5,6 +5,7 @@
         <HomeHeader 
           v-model:selectedMode="selectedMode"
           @logout="handleLogout"
+          @search="handleSearch"
         />
         
         <main class="flex-1 pt-22">

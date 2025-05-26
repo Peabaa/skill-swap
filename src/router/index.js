@@ -14,7 +14,7 @@ const routes = [
     meta: { title: 'SkillSwap - Home' }
   },
   {
-    path: '/search-results/:skill',
+    path: '/search-results',
     name: 'SearchResultsPage',
     component: () => import('@/components/SearchResultsPage.vue') 
   }

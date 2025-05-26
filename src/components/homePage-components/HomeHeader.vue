@@ -26,6 +26,7 @@
           type="text"
           placeholder="Search"
           class="font-roboto flex-1 bg-transparent outline-none text-gray-700 text-base mx-6"
+          @keyup.enter="emitSearch"
         />
 
         <!-- Search Filter Button -->
@@ -143,6 +144,15 @@ const dropdownRef = ref(null)
 const showDashboardMenu = ref(false)
 const dashboardMenuRef = ref(null)
 const showProfile = ref(false)
+
+const emitSearch = () => {
+  const trimmedSearch = searchBar.value.trim()
+  if (trimmedSearch !== '') {
+    console.log('Search query sent to search.php:', trimmedSearch) // Console log added
+    router.push({ name: 'SearchResultsPage', query: { q: trimmedSearch } })
+    searchBar.value = '' // Clear field
+  }
+}
 
 const handleLogout = () => {
   emit('logout')
