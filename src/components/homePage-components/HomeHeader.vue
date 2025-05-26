@@ -99,6 +99,14 @@
               <li>
                 <button
                   class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 font-roboto font-semibold"
+                  @click="viewProfile"
+                >
+                  View Profile
+                </button>
+              </li>
+              <li>
+                <button
+                  class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 font-roboto font-semibold"
                   @click="handleLogout"
                 >
                   Log Out
@@ -108,6 +116,9 @@
           </div>
         </div>
     </div>
+    
+    <!-- Add ProfileOverlay component -->
+    <ProfileOverlay v-if="showProfile" @close="showProfile = false" />
   </header>
 </template>
 
@@ -115,6 +126,7 @@
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useRouter } from 'vue-router'
+import ProfileOverlay from './ProfileOverlay.vue'
 
 const props = defineProps({
   selectedMode: {
@@ -130,6 +142,7 @@ const showFilters = ref(false)
 const dropdownRef = ref(null)
 const showDashboardMenu = ref(false)
 const dashboardMenuRef = ref(null)
+const showProfile = ref(false)
 
 const handleLogout = () => {
   emit('logout')
@@ -142,6 +155,11 @@ const goToHome = () => {
 
 const setMode = (mode) => {
   emit('update:selectedMode', mode)
+}
+
+const viewProfile = () => {
+  showProfile.value = true
+  showDashboardMenu.value = false
 }
 
 onClickOutside(dropdownRef, () => {

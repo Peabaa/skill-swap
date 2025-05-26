@@ -20,8 +20,12 @@
                           :class="[
                             'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                             selectedFilter === 'Mentors'
-                              ? 'bg-[#6EA1AA] text-white border-none'
-                              : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ? selectedMode === 'barter' 
+                                ? 'bg-[#03262B] text-white border-none'
+                                : 'bg-[#6EA1AA] text-white border-none'
+                              : selectedMode === 'barter'
+                                ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                : 'bg-white text-[#03262B] border border-[#6EA1AA]'
                           ]"
                           @click="selectedFilter = selectedFilter === 'Mentors' ? 'All' : 'Mentors'"
                         >
@@ -31,8 +35,12 @@
                           :class="[
                             'w-44 h-11 text-center justify-center text-2xl font-bold font-roboto leading-7 rounded-3xl',
                             selectedFilter === 'Students'
-                              ? 'bg-[#6EA1AA] text-white border-none'
-                              : 'bg-white text-[#03262B] border border-[#6EA1AA]'
+                              ? selectedMode === 'barter'
+                                ? 'bg-[#03262B] text-white border-none'
+                                : 'bg-[#6EA1AA] text-white border-none'
+                              : selectedMode === 'barter'
+                                ? 'bg-white text-[#03262B] border border-[#03262B]'
+                                : 'bg-white text-[#03262B] border border-[#6EA1AA]'
                           ]"
                           @click="selectedFilter = selectedFilter === 'Students' ? 'All' : 'Students'"
                         >
@@ -43,7 +51,10 @@
                         <img 
                             src="@/assets/images/searchFilters.png"
                             alt="Filter"
-                            class="w-10 h-8 object-contain cursor-pointer brightness-0 invert"
+                            :class="[
+                                'w-10 h-8 object-contain cursor-pointer',
+                                selectedMode === 'barter' ? 'brightness-0' : 'brightness-0 invert'
+                            ]"
                             @click.stop="showFilters = !showFilters"
                         />
                         
