@@ -35,7 +35,7 @@ if (empty($newSkill)) {
 }
 
 // Database connection
-$conn = new mysqli("sql12.freesqldatabase.com", "sql12781104", "gzbNBg7kY1", "sql12781104", 3306);
+$conn = new mysqli("localhost", "root", "", "skillswapusers");
 if ($conn->connect_error) {
     http_response_code(500);
     echo json_encode(["message" => "Database connection failed."]);

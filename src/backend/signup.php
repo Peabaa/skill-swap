@@ -34,7 +34,7 @@ if (!$email || !$password) {
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-$conn = new mysqli("sql12.freesqldatabase.com", "sql12781104", "gzbNBg7kY1", "sql12781104", 3306);
+$conn = new mysqli("localhost", "root", "", "skillswapusers");
 
 if ($conn->connect_error) {
     http_response_code(500);
