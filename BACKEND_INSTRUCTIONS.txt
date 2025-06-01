@@ -1,12 +1,7 @@
 == BACKEND INSTRUCTIONS ==
 
 ++ MySQL Setup ++
-1.) to view the mysql database, go to the shared phpmyadmin website, http://www.phpmyadmin.co
-
-2.) enter the following credentials to log in:
-Server: sql12.freesqldatabase.com
-Username: sql12781104
-Password: gzbNBg7kY1
+1.) create a database entitled "skillswapusers"
 
 ++ PHP Setup ++
 1.) copy call PHP files inside src/backend folder. Paste the PHP files inside your htdocs folder of XAMPP.
